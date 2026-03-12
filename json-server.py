@@ -3,7 +3,7 @@ from http.server import HTTPServer
 from nss_handler import HandleRequests, status
 
 # Add your imports below this line
-from views import list_orders
+from views import list_orders, get_single_order
 
 
 class JSONServer(HandleRequests):
@@ -16,9 +16,9 @@ class JSONServer(HandleRequests):
         url = self.parse_url(self.path)
 
         if url["requested_resource"] == "orders":
-            # if url["pk"] != 0:
-            #    response_body = retrieve_dock(url["pk"])
-            #    return self.response(response_body, status.HTTP_200_SUCCESS.value)
+            if url["pk"] != 0:
+                response_body = get_single_order(url["pk"])
+                return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
             response_body = list_orders()
             return self.response(response_body, status.HTTP_200_SUCCESS.value)

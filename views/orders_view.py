@@ -20,3 +20,21 @@ def list_orders():
         serialized_orders = json.dumps(orders)
 
     return serialized_orders
+
+
+def get_single_order(pk):
+    """Run query to get a single order and return serialized result"""
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute(
+            """
+            SELECT * FROM Orders WHERE id = ?
+            """,
+            (pk,),
+        )
+        query_results = db_cursor.fetchone()
+        serialized_order = json.dumps(dict(query_results))
+
+    return serialized_order
