@@ -2,6 +2,21 @@ import sqlite3
 import json
 
 
+def create_order(order_data):
+    """Take new order_data and run query to insert it"""
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute(
+            """
+                INSERT INTO Orders VALUES (null, ?, ?, ?)
+                """,
+            (order_data["metalId"], order_data["styleId"], order_data["sizeId"]),
+        )
+
+    return True if db_cursor.rowcount > 0 else False
+
+
 def list_orders():
     """Run query to get all orders and return serialized results"""
     with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
