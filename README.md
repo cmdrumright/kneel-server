@@ -92,6 +92,26 @@ def delete_order(pk):
     return True if number_of_rows_deleted > 0 else False
 ```
 
+### How to updated a row
+
+```py
+def update_metal(id, metal_data):
+    """Take metal id and new metal_data, execute query to updated metal data, return true if success or false if error"""
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute(
+            """
+            UPDATE Metals
+                SET
+                    metal = ?,
+                    price = ?
+            WHERE id = ?
+            """,
+            (metal_data["metal"], metal_data["price"], id),
+        )
+    return True if db_cursor.rowcount > 0 else False
+```
+
 ### Using curl to test API
 
 GET
@@ -118,4 +138,13 @@ DELETE
 curl -v --header "Content-Type: application/json" \
   --request DELETE \
   'http://localhost:8000/orders/9' | jq
+```
+
+PUT
+
+```bash
+curl --header "Content-Type: application/json" \
+  --request PUT \
+  --data '{"id":1,"metal":"Sterling Silver","price":12.34}' \
+  'http://localhost:8000/metals/1'
 ```

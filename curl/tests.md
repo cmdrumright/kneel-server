@@ -27,3 +27,14 @@ curl -v --header "Content-Type: application/json" \
   --request DELETE \
   'http://localhost:8000/orders/9' | jq
 ```
+
+## /metals
+
+### PUT
+
+```bash
+curl --header "Content-Type: application/json" \
+  --request PUT \
+  --data '{"id":1,"metal":"Sterling Silver","price":12.34}' \
+  'http://localhost:8000/metals/1'
+```
