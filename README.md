@@ -73,6 +73,25 @@ def create_order(order_data):
     return True if db_cursor.rowcount > 0 else False
 ```
 
+### How to delete a row from a table
+
+```py
+def delete_order(pk):
+    """Take an order id and execute query to remove that entry from orders table"""
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        db_cursor.execute(
+            """
+            DELETE FROM Orders WHERE id = ?
+            """,
+            (pk,),
+        )
+        number_of_rows_deleted = db_cursor.rowcount
+
+    return True if number_of_rows_deleted > 0 else False
+```
+
 ### Using curl to test API
 
 GET
@@ -91,4 +110,12 @@ curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"metalId":1,"styleId":1,"sizeId":1}' \
   'http://localhost:8000/orders'
+```
+
+DELETE
+
+```bash
+curl -v --header "Content-Type: application/json" \
+  --request DELETE \
+  'http://localhost:8000/orders/9' | jq
 ```

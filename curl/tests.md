@@ -5,7 +5,7 @@
 ### GET
 
 ```bash
-curl 'http://localhost:8000/orders' | jq
+curl -v 'http://localhost:8000/orders' | jq
 
 curl 'http://localhost:8000/orders/1' | jq
 
@@ -18,4 +18,12 @@ curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"metalId":1,"styleId":1,"sizeId":1}' \
   'http://localhost:8000/orders'
+```
+
+### DELETE
+
+```bash
+curl -v --header "Content-Type: application/json" \
+  --request DELETE \
+  'http://localhost:8000/orders/9' | jq
 ```
