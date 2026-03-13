@@ -18,10 +18,10 @@ class JSONServer(HandleRequests):
 
         if url["requested_resource"] == "orders":
             if url["pk"] != 0:
-                response_body = get_single_order(url["pk"])
+                response_body = get_single_order(url)
                 return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
-            response_body = list_orders()
+            response_body = list_orders(url)
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
         else:
             return self.response(

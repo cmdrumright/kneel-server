@@ -9,6 +9,10 @@ curl -v 'http://localhost:8000/orders' | jq
 
 curl 'http://localhost:8000/orders/1' | jq
 
+curl -v 'http://localhost:8000/orders?_expand=metal&_expand=size&_expand=style' | jq
+
+curl -v 'http://localhost:8000/orders/1?_expand=metal&_expand=size&_expand=style' | jq
+
 ```
 
 ### POST
