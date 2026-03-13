@@ -4,6 +4,7 @@ from nss_handler import HandleRequests, status
 
 # Add your imports below this line
 from views import list_orders, get_single_order, create_order, delete_order
+from views import update_metal
 
 
 class JSONServer(HandleRequests):
@@ -39,8 +40,18 @@ class JSONServer(HandleRequests):
         request_body = self.rfile.read(content_len)
         request_body = json.loads(request_body)
 
-        if url["requested_resource"] == "ships":
-            pass
+        if url["requested_resource"] == "metals":
+            if pk != 0:
+                successfully_updated = update_metal(pk, request_body)
+                if successfully_updated:
+                    return self.response(
+                        "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value
+                    )
+
+            return self.response(
+                "Requested resource not found",
+                status.HTTP_404_CLIENT_ERROR_RESOURCE_NOT_FOUND.value,
+            )
 
         else:
             return self.response(
