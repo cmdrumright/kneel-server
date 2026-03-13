@@ -3,7 +3,7 @@ from http.server import HTTPServer
 from nss_handler import HandleRequests, status
 
 # Add your imports below this line
-from views import list_orders, get_single_order
+from views import list_orders, get_single_order, create_order
 
 
 class JSONServer(HandleRequests):
@@ -73,8 +73,10 @@ class JSONServer(HandleRequests):
         request_body = self.rfile.read(content_len)
         request_body = json.loads(request_body)
 
-        if url["requested_resource"] == "ships":
-            pass
+        if url["requested_resource"] == "orders":
+            successfully_added = create_order(request_body)
+            if successfully_added:
+                return self.response("", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value)
 
         else:
             return self.response(
